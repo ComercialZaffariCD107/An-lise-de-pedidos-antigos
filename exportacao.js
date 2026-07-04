@@ -347,7 +347,19 @@ function criarAbaResumo(wb, resumo){
 
 async function exportarExcel(){
 
-    if(!resultado.length){
+    // Respeita o filtro ativo na tela (situação/etiqueta).
+    // Se nenhum filtro estiver ativo, obterDadosFiltrados()
+    // retorna o resultado completo normalmente.
+    const dadosBase =
+    typeof obterDadosFiltrados === "function"
+    ? obterDadosFiltrados()
+    : resultado;
+
+    const filtroAtivo =
+    (typeof filtroSituacaoGlobal !== "undefined" && filtroSituacaoGlobal) ||
+    (typeof filtroEtiquetaGlobal !== "undefined" && filtroEtiquetaGlobal);
+
+    if(!dadosBase.length){
 
         alert("Nenhum dado para exportar.");
 
@@ -365,7 +377,7 @@ async function exportarExcel(){
     // =====================================
 
     const resultadoExportacao =
-    resultado.map(item=>({
+    dadosBase.map(item=>({
 
         ...item,
 
@@ -389,7 +401,7 @@ async function exportarExcel(){
     // =====================================
 
     const semMaster =
-    resultado.filter(
+    dadosBase.filter(
         x => x.Situacao === "🔴 Sem Master"
     );
 
@@ -405,7 +417,7 @@ async function exportarExcel(){
     // =====================================
 
     const masterAntiga =
-    resultado.filter(
+    dadosBase.filter(
         x => x.Situacao === "🟠 Master Antiga"
     );
 
@@ -422,21 +434,21 @@ async function exportarExcel(){
 
     const resumo = {
 
-        Total_Pedidos: resultado.length,
+        Total_Pedidos: dadosBase.length,
 
         Sem_Master: semMaster.length,
 
-        Com_Master: resultado.filter(
+        Com_Master: dadosBase.filter(
             x => x.Situacao === "🟢 Com Master"
         ).length,
 
         Master_Antiga: masterAntiga.length,
 
         Lojas_Impactadas:
-        new Set(resultado.map(x=>x.Loja)).size,
+        new Set(dadosBase.map(x=>x.Loja)).size,
 
         Produtos_Impactados:
-        new Set(resultado.map(x=>x.Produto)).size
+        new Set(dadosBase.map(x=>x.Produto)).size
 
     };
 
@@ -448,7 +460,7 @@ async function exportarExcel(){
 
     const mapaLojas = {};
 
-    resultado.forEach(item=>{
+    dadosBase.forEach(item=>{
 
         mapaLojas[item.Loja] =
         (mapaLojas[item.Loja] || 0) + 1;
@@ -478,7 +490,7 @@ async function exportarExcel(){
 
     const mapaProdutos = {};
 
-    resultado.forEach(item=>{
+    dadosBase.forEach(item=>{
 
         mapaProdutos[item.Produto] =
         (mapaProdutos[item.Produto] || 0) + 1;
@@ -521,6 +533,8 @@ async function exportarExcel(){
 
     a.download =
     `MASTER_CROSS_${
+        filtroAtivo ? "FILTRADO_" : ""
+    }${
         new Date().toISOString().slice(0,10)
     }.xlsx`;
 
