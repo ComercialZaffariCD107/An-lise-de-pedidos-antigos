@@ -137,6 +137,24 @@ document.addEventListener(
 
         });
 
+        // Select de etiqueta não fazia nada até então —
+        // agora ele escreve no mesmo filtro global usado
+        // pelos KPIs clicáveis (filtrarEtiqueta).
+        document
+        .getElementById("fEtiqueta")
+        ?.addEventListener(
+            "change",
+            function(){
+
+                filtroSituacaoGlobal = "";
+
+                filtroEtiquetaGlobal = this.value;
+
+                renderTabela();
+
+            }
+        );
+
     }
 );
 
