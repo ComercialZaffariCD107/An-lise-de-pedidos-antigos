@@ -104,12 +104,7 @@
         type="file"
         id="arquivoPedidos"
         accept=".xlsx,.xls,.csv"
-        class="file-hidden"
-        onchange="
-        document.getElementById(
-        'nomeArquivoPedidos'
-        ).innerHTML =
-        '✅ ' + this.files[0].name">
+        class="file-hidden">
 
         <div
         id="nomeArquivoPedidos"
@@ -117,6 +112,10 @@
 
             Nenhum arquivo carregado
 
+        </div>
+
+        <div class="upload-loading" id="loadingPedidos">
+            <div class="upload-loading-fill" id="loadingFillPedidos"></div>
         </div>
 
     </div>
@@ -150,12 +149,7 @@
         type="file"
         id="arquivoMaster"
         accept=".xlsx,.xls,.csv"
-        class="file-hidden"
-        onchange="
-        document.getElementById(
-        'nomeArquivoMaster'
-        ).innerHTML =
-        '✅ ' + this.files[0].name">
+        class="file-hidden">
 
         <div
         id="nomeArquivoMaster"
@@ -163,6 +157,10 @@
 
             Nenhum arquivo carregado
 
+        </div>
+
+        <div class="upload-loading" id="loadingMaster">
+            <div class="upload-loading-fill" id="loadingFillMaster"></div>
         </div>
 
     </div>
@@ -196,12 +194,7 @@
         type="file"
         id="arquivoEtiqueta"
         accept=".txt,.csv"
-        class="file-hidden"
-        onchange="
-        document.getElementById(
-        'nomeArquivoEtiqueta'
-        ).innerHTML =
-        '✅ ' + this.files[0].name">
+        class="file-hidden">
 
         <div
         id="nomeArquivoEtiqueta"
@@ -209,6 +202,10 @@
 
             Nenhum arquivo carregado
 
+        </div>
+
+        <div class="upload-loading" id="loadingEtiqueta">
+            <div class="upload-loading-fill" id="loadingFillEtiqueta"></div>
         </div>
 
     </div>
@@ -407,7 +404,7 @@ placeholder="📦 Produto"
 
 </select>
 
-<button onclick="renderTabela()">
+<button onclick="aplicarFiltros()">
 Filtrar
 </button>
   

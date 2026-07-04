@@ -356,38 +356,117 @@ function posProcessamento(){
 }
 
 
-document
-.getElementById("arquivoPedidos")
-.addEventListener("change", function(){
+// =====================================
+// LOADING NOS UPLOADS
+// =====================================
+// Cada card de upload agora mostra uma barra de progresso
+// enquanto o arquivo é lido do disco, em vez de só trocar
+// o texto pra "✅ nome.xlsx" instantaneamente. O arquivo
+// ainda é relido de verdade dentro de processar() — essa
+// leitura aqui é só feedback visual de que o navegador
+// está de fato pegando o arquivo (útil em arquivos grandes
+// ou notebooks mais lentos).
 
-    document.getElementById(
-        "nomeArquivoPedidos"
-    ).innerHTML =
-    "✅ " + this.files[0].name;
+function configurarUploadComLoading(inputId, nomeId, barraId, fillId){
 
-});
+    const input =
+    document.getElementById(inputId);
 
-document
-.getElementById("arquivoMaster")
-.addEventListener("change", function(){
+    if(!input) return;
 
-    document.getElementById(
-        "nomeArquivoMaster"
-    ).innerHTML =
-    "✅ " + this.files[0].name;
+    input.addEventListener("change", function(){
 
-});
+        const file = this.files[0];
 
-document
-.getElementById("arquivoEtiqueta")
-.addEventListener("change", function(){
+        const nomeEl =
+        document.getElementById(nomeId);
 
-    document.getElementById(
-        "nomeArquivoEtiqueta"
-    ).innerHTML =
-    "✅ " + this.files[0].name;
+        const barra =
+        document.getElementById(barraId);
 
-});
+        const fill =
+        document.getElementById(fillId);
+
+        if(!file){
+
+            nomeEl.innerHTML =
+            "Nenhum arquivo carregado";
+
+            return;
+
+        }
+
+        nomeEl.innerHTML =
+        "⏳ Carregando " + file.name + "...";
+
+        barra.style.display = "block";
+        fill.style.width = "0%";
+
+        const reader = new FileReader();
+
+        reader.onprogress = function(e){
+
+            if(e.lengthComputable){
+
+                const pct =
+                Math.round((e.loaded / e.total) * 100);
+
+                fill.style.width = pct + "%";
+
+            }
+
+        };
+
+        reader.onload = function(){
+
+            fill.style.width = "100%";
+
+            setTimeout(()=>{
+
+                barra.style.display = "none";
+
+                nomeEl.innerHTML =
+                "✅ " + file.name;
+
+            }, 250);
+
+        };
+
+        reader.onerror = function(){
+
+            barra.style.display = "none";
+
+            nomeEl.innerHTML =
+            "❌ Erro ao ler " + file.name;
+
+        };
+
+        reader.readAsArrayBuffer(file);
+
+    });
+
+}
+
+configurarUploadComLoading(
+    "arquivoPedidos",
+    "nomeArquivoPedidos",
+    "loadingPedidos",
+    "loadingFillPedidos"
+);
+
+configurarUploadComLoading(
+    "arquivoMaster",
+    "nomeArquivoMaster",
+    "loadingMaster",
+    "loadingFillMaster"
+);
+
+configurarUploadComLoading(
+    "arquivoEtiqueta",
+    "nomeArquivoEtiqueta",
+    "loadingEtiqueta",
+    "loadingFillEtiqueta"
+);
 
 
 // =====================================

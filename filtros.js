@@ -7,7 +7,50 @@ let filtroEtiquetaGlobal = "";
 
 function obterDadosFiltrados(){
 
+    // Campos de texto/select — antes disparavam
+    // renderTabela() mas não eram lidos aqui dentro.
+    const textoLoja =
+    (document.getElementById("fLoja")?.value || "")
+    .toLowerCase().trim();
+
+    const textoPedido =
+    (document.getElementById("fPedido")?.value || "")
+    .toLowerCase().trim();
+
+    const textoProduto =
+    (document.getElementById("fProduto")?.value || "")
+    .toLowerCase().trim();
+
+    const situacaoSelect =
+    (document.getElementById("fSituacao")?.value || "")
+    .trim();
+
     return resultado.filter(item=>{
+
+        const passouLoja =
+        !textoLoja ||
+        String(item.Loja || "")
+        .toLowerCase()
+        .includes(textoLoja);
+
+        const passouPedido =
+        !textoPedido ||
+        String(item.Pedido || "")
+        .toLowerCase()
+        .includes(textoPedido);
+
+        const passouProduto =
+        !textoProduto ||
+        String(item.Produto || "")
+        .toLowerCase()
+        .includes(textoProduto) ||
+        String(item.Descricao || "")
+        .toLowerCase()
+        .includes(textoProduto);
+
+        const passouSituacaoSelect =
+        !situacaoSelect ||
+        (item.Situacao || "").trim() === situacaoSelect;
 
        const passouSituacao =
 
@@ -27,6 +70,11 @@ function obterDadosFiltrados(){
         );
 
         return (
+
+            passouLoja &&
+            passouPedido &&
+            passouProduto &&
+            passouSituacaoSelect &&
 
             passouSituacao &&
 
@@ -102,6 +150,26 @@ function renderTabela(){
 }
 
 // =====================================
+// APLICAR FILTROS (TABELA + DASHBOARD)
+// =====================================
+// Ponto único chamado por qualquer gatilho de filtro
+// (inputs de texto, selects, cliques nos KPIs, botão
+// "Filtrar"). Antes só a tabela era atualizada; os
+// gráficos e KPIs continuavam mostrando o total geral.
+
+function aplicarFiltros(){
+
+    renderTabela();
+
+    if(typeof atualizarDashboard === "function"){
+
+        atualizarDashboard();
+
+    }
+
+}
+
+// =====================================
 // FILTROS AUTOMÁTICOS
 // =====================================
 
@@ -125,14 +193,14 @@ document.addEventListener(
             .getElementById(id)
             ?.addEventListener(
                 "input",
-                renderTabela
+                aplicarFiltros
             );
 
             document
             .getElementById(id)
             ?.addEventListener(
                 "change",
-                renderTabela
+                aplicarFiltros
             );
 
         });
@@ -150,7 +218,7 @@ document.addEventListener(
 
                 filtroEtiquetaGlobal = this.value;
 
-                renderTabela();
+                aplicarFiltros();
 
             }
         );
@@ -177,7 +245,7 @@ function filtrarSituacao(situacao){
 
     }
 
-    renderTabela();
+    aplicarFiltros();
 
 }
 
@@ -199,6 +267,6 @@ function filtrarEtiqueta(etiqueta){
 
     }
 
-    renderTabela();
+    aplicarFiltros();
 
 }
