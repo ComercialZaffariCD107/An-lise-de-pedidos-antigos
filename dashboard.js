@@ -34,63 +34,72 @@ Chart.defaults.font.family = "'Inter', 'Segoe UI', sans-serif";
 
 function atualizarDashboard(){
 
+    // Respeita os filtros ativos (texto, selects e os
+    // atalhos de clique nos KPIs). Sem nenhum filtro
+    // ativo, obterDadosFiltrados() devolve tudo — então
+    // o comportamento padrão não muda.
+    const dados =
+    typeof obterDadosFiltrados === "function"
+    ? obterDadosFiltrados()
+    : resultado;
+
     document.getElementById("kpiTotal").innerText =
-    resultado.length;
+    dados.length;
 
     document.getElementById("kpiSemMaster").innerText =
-    resultado.filter(
+    dados.filter(
         x=>x.Situacao==="🔴 Sem Master"
     ).length;
 
     document.getElementById("kpiComMaster").innerText =
-    resultado.filter(
+    dados.filter(
         x=>x.Situacao==="🟢 Com Master"
     ).length;
 
     document.getElementById("kpiMasterAntiga").innerText =
-    resultado.filter(
+    dados.filter(
         x=>x.Situacao==="🟠 Master Antiga"
     ).length;
 
     document.getElementById("kpiLojas").innerText =
-    new Set(resultado.map(x=>x.Loja)).size;
+    new Set(dados.map(x=>x.Loja)).size;
 
     document.getElementById("kpiProdutos").innerText =
-    new Set(resultado.map(x=>x.Produto)).size;
+    new Set(dados.map(x=>x.Produto)).size;
 
     document.getElementById("kpiAguardando").innerText =
-    resultado.filter(
+    dados.filter(
         x=>(x.SituacaoEtiqueta || "")
         .includes("Aguardando")
     ).length;
 
     document.getElementById("kpiMontagem").innerText =
-    resultado.filter(
+    dados.filter(
         x=>(x.StatusMaster || "")
         .includes("Em Montagem")
     ).length;
 
     document.getElementById("kpiMontadas").innerText =
-    resultado.filter(
+    dados.filter(
         x=>(x.SituacaoEtiqueta || "")
         .includes("Montada")
     ).length;
 
     document.getElementById("kpiNaoChecada").innerText =
-    resultado.filter(
+    dados.filter(
         x=>(x.SituacaoEtiqueta || "")
         .includes("Não Checada")
     ).length;
 
     document.getElementById("kpiCanceladas").innerText =
-    resultado.filter(
+    dados.filter(
         x=>(x.SituacaoEtiqueta || "")
         .includes("Cancelada")
     ).length;
 
-    atualizarGraficoStatus();
-    atualizarGraficoLojas();
-    atualizarGraficoEtiquetas();
+    atualizarGraficoStatus(dados);
+    atualizarGraficoLojas(dados);
+    atualizarGraficoEtiquetas(dados);
 }
 
 
@@ -105,7 +114,7 @@ function atualizarDashboard(){
 // comunica a proporção real mesmo quando os números são
 // muito desbalanceados.
 
-function atualizarGraficoStatus(){
+function atualizarGraficoStatus(dados = resultado){
 
     const ctx =
     document.getElementById("graficoStatus");
@@ -115,26 +124,26 @@ function atualizarGraficoStatus(){
     if(graficoStatus)
         graficoStatus.destroy();
 
-    const dados = [
-        { label:"Sem Master",    valor:resultado.filter(x=>x.Situacao==="🔴 Sem Master").length,    cor:CORES.red },
-        { label:"Com Master",    valor:resultado.filter(x=>x.Situacao==="🟢 Com Master").length,    cor:CORES.green },
-        { label:"Master Antiga", valor:resultado.filter(x=>x.Situacao==="🟠 Master Antiga").length, cor:CORES.amber }
+    const dadosGrafico = [
+        { label:"Sem Master",    valor:dados.filter(x=>x.Situacao==="🔴 Sem Master").length,    cor:CORES.red },
+        { label:"Com Master",    valor:dados.filter(x=>x.Situacao==="🟢 Com Master").length,    cor:CORES.green },
+        { label:"Master Antiga", valor:dados.filter(x=>x.Situacao==="🟠 Master Antiga").length, cor:CORES.amber }
     ]
     .sort((a,b)=>b.valor - a.valor);
 
     const total =
-    dados.reduce((s,x)=>s+x.valor,0) || 1;
+    dadosGrafico.reduce((s,x)=>s+x.valor,0) || 1;
 
     graficoStatus = new Chart(ctx,{
 
         type:"bar",
 
         data:{
-            labels: dados.map(x=>x.label),
+            labels: dadosGrafico.map(x=>x.label),
 
             datasets:[{
-                data: dados.map(x=>x.valor),
-                backgroundColor: dados.map(x=>x.cor),
+                data: dadosGrafico.map(x=>x.valor),
+                backgroundColor: dadosGrafico.map(x=>x.cor),
                 borderRadius:4,
                 barThickness:34
             }]
@@ -179,7 +188,7 @@ function atualizarGraficoStatus(){
 // agrega nada — removida. Adicionado o valor exato no
 // topo de cada barra.
 
-function atualizarGraficoLojas(){
+function atualizarGraficoLojas(dados = resultado){
 
     const ctx =
     document.getElementById("graficoLojas");
@@ -188,7 +197,7 @@ function atualizarGraficoLojas(){
 
     const mapa = {};
 
-    resultado.forEach(item=>{
+    dados.forEach(item=>{
 
         mapa[item.Loja] =
         (mapa[item.Loja] || 0) + 1;
@@ -252,7 +261,7 @@ function atualizarGraficoLojas(){
 // mas agora com o percentual escrito direto em cada fatia
 // em vez de depender só da legenda/tooltip.
 
-function atualizarGraficoEtiquetas(){
+function atualizarGraficoEtiquetas(dados = resultado){
 
     const ctx =
     document.getElementById("graficoEtiquetas");
@@ -263,11 +272,11 @@ function atualizarGraficoEtiquetas(){
         graficoEtiquetas.destroy();
 
     const valores = [
-        resultado.filter(x=>(x.SituacaoEtiqueta || "").includes("Aguardando")).length,
-        resultado.filter(x=>(x.StatusMaster || "").includes("Em Montagem")).length,
-        resultado.filter(x=>(x.SituacaoEtiqueta || "").includes("Montada")).length,
-        resultado.filter(x=>(x.SituacaoEtiqueta || "").includes("Não Checada")).length,
-        resultado.filter(x=>(x.SituacaoEtiqueta || "").includes("Cancelada")).length
+        dados.filter(x=>(x.SituacaoEtiqueta || "").includes("Aguardando")).length,
+        dados.filter(x=>(x.StatusMaster || "").includes("Em Montagem")).length,
+        dados.filter(x=>(x.SituacaoEtiqueta || "").includes("Montada")).length,
+        dados.filter(x=>(x.SituacaoEtiqueta || "").includes("Não Checada")).length,
+        dados.filter(x=>(x.SituacaoEtiqueta || "").includes("Cancelada")).length
     ];
 
     const total =
