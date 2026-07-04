@@ -244,7 +244,7 @@ let situacaoEtiqueta =
     localizacao =
     master.localizacao;
             if(
-                diasMaster >= 15
+                diasMaster >= 10
             ){
 
                 situacao =
