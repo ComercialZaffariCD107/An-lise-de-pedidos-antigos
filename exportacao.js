@@ -153,6 +153,50 @@ function colorirLinhasPorSituacao(sheet, chaves){
 // pelas chaves do primeiro item, então funciona pra
 // qualquer formato de "resultado" sem precisar hardcodar
 // nomes de campo.
+// Colunas que chegam como número serial de data do Excel
+// (ex: 46204,92795) e precisam ser exibidas como data
+// abreviada em vez do número cru.
+const COLUNAS_DATA = [
+    "DataPedido",
+    "DataGeracaoCarga"
+];
+
+// Converte o serial numérico em Date real e marca a coluna
+// com numFmt de data abreviada (dd/mm/aa).
+function aplicarFormatoData(sheet, chaves){
+
+    chaves.forEach((chave, idx)=>{
+
+        if(!COLUNAS_DATA.includes(chave)) return;
+
+        const colIndex = idx + 1;
+
+        const coluna = sheet.getColumn(colIndex);
+
+        coluna.numFmt = "dd/mm/yy";
+
+        for(let i=2; i<=sheet.rowCount; i++){
+
+            const cell = sheet.getRow(i).getCell(colIndex);
+
+            const valor = cell.value;
+
+            if(typeof valor === "number" && valor > 0){
+
+                // Excel: dia 0 = 30/12/1899
+                cell.value = new Date(
+                    Date.UTC(1899,11,30) +
+                    valor * 86400000
+                );
+
+            }
+
+        }
+
+    });
+
+}
+
 function criarAbaTabela(wb, nome, dados, corHex, opcoes = {}){
 
     const sheet = wb.addWorksheet(nome, {
@@ -180,6 +224,8 @@ function criarAbaTabela(wb, nome, dados, corHex, opcoes = {}){
     dados.forEach(item=> sheet.addRow(item));
 
     estilizarCabecalho(sheet, corHex);
+
+    aplicarFormatoData(sheet, chaves);
 
     autoAjustarColunas(sheet);
 
