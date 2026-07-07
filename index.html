@@ -216,32 +216,48 @@
 <!-- SINCRONIZAÇÃO AUTOMÁTICA -->
 <!-- ================================= -->
 
-<section class="sync-bar">
+<section class="sync-card">
 
-    <div id="syncStatus" class="sync-off">
-        <span class="sync-dot"></span> Sincronização desligada
+    <div class="sync-card-info">
+
+        <div class="sync-card-icone">🔗</div>
+
+        <div class="sync-card-textos">
+
+            <div class="sync-card-titulo">Sincronização Automática</div>
+
+            <div id="syncStatus" class="sync-off">
+                <span class="sync-dot"></span> Sincronização desligada
+            </div>
+
+            <span id="syncUltimaChecagem" class="sync-ultima-checagem" style="display:none;"></span>
+
+        </div>
+
     </div>
 
-    <span id="syncUltimaChecagem" class="sync-ultima-checagem" style="display:none;"></span>
+    <div class="sync-card-acoes">
 
-    <button
-    id="btnConectarPasta"
-    class="btn-processar"
-    onclick="conectarPastaAnalise()">
+        <button
+        id="btnConectarPasta"
+        class="btn-processar"
+        onclick="conectarPastaAnalise()">
 
-        🔗 Conectar Pasta
+            🔗 Conectar Pasta
 
-    </button>
+        </button>
 
-    <button
-    id="btnDesconectarPasta"
-    class="btn-tema"
-    style="display:none;"
-    onclick="desconectarPastaAnalise()">
+        <button
+        id="btnDesconectarPasta"
+        class="btn-tema"
+        style="display:none;"
+        onclick="desconectarPastaAnalise()">
 
-        ⛔ Desconectar
+            ⛔ Desconectar
 
-    </button>
+        </button>
+
+    </div>
 
 </section>
 
