@@ -211,7 +211,40 @@
     </div>
 
 </section>
-  
+
+<!-- ================================= -->
+<!-- SINCRONIZAÇÃO AUTOMÁTICA -->
+<!-- ================================= -->
+
+<section class="sync-bar">
+
+    <div id="syncStatus" class="sync-off">
+        <span class="sync-dot"></span> Sincronização desligada
+    </div>
+
+    <span id="syncUltimaChecagem" class="sync-ultima-checagem" style="display:none;"></span>
+
+    <button
+    id="btnConectarPasta"
+    class="btn-processar"
+    onclick="conectarPastaAnalise()">
+
+        🔗 Conectar Pasta
+
+    </button>
+
+    <button
+    id="btnDesconectarPasta"
+    class="btn-tema"
+    style="display:none;"
+    onclick="desconectarPastaAnalise()">
+
+        ⛔ Desconectar
+
+    </button>
+
+</section>
+
 <!-- ================================= -->
 <!-- LOADING -->
 <!-- ================================= -->
@@ -493,6 +526,7 @@ Filtrar
 <script src="filtros.js"></script>
 <script src="exportacao.js"></script>
 <script src="app.js"></script>
+<script src="sync.js"></script>
 
 </body>
 
