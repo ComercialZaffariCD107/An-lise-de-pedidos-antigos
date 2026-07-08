@@ -154,6 +154,9 @@ new Map();
 const mapaEtiquetasProduto =
 new Map();
 
+const mapaEtiquetasCargaLojaProduto =
+new Map();
+
 etiquetas.forEach(e=>{
 
     if(e.etiquetaMaster){
@@ -169,6 +172,18 @@ etiquetas.forEach(e=>{
 
         mapaEtiquetasProduto.set(
             e.produto,
+            e.situacaoEtiqueta
+        );
+
+    }
+
+    if(e.carga && e.loja && e.produto){
+
+        const chaveEtiqueta =
+        `${e.carga}|${e.loja}|${e.produto}`;
+
+        mapaEtiquetasCargaLojaProduto.set(
+            chaveEtiqueta,
             e.situacaoEtiqueta
         );
 
@@ -204,12 +219,18 @@ etiquetas.forEach(e=>{
 let situacaoEtiqueta =
 "";
         
+const chaveEtiquetaPedido =
+`${p.carga}|${p.loja}|${p.produto}`;
+
    if(!master){
 
     situacao =
     "🔴 Sem Master";
 
     situacaoEtiqueta =
+    mapaEtiquetasCargaLojaProduto.get(
+        chaveEtiquetaPedido
+    ) ||
     mapaEtiquetasProduto.get(
         p.produto
     ) || "";
@@ -222,7 +243,14 @@ let situacaoEtiqueta =
     codigoMaster =
     master.master;
 
-    if(codigoMaster){
+    if(mapaEtiquetasCargaLojaProduto.has(chaveEtiquetaPedido)){
+
+        situacaoEtiqueta =
+        mapaEtiquetasCargaLojaProduto.get(
+            chaveEtiquetaPedido
+        );
+
+    }else if(codigoMaster){
 
         situacaoEtiqueta =
         mapaEtiquetasMaster.get(

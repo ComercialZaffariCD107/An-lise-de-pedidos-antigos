@@ -224,7 +224,17 @@ console.log(dados[0]);
         situacaoEtiqueta:
         String(
             r.SITUACAOETIQUETA || ""
-        ).trim()
+        ).trim(),
+
+        carga:
+        String(
+            r.NROCARGA || ""
+        ).trim(),
+
+        loja:
+        String(
+            r.AREA_EXPEDIDA || ""
+        ).replace(/\D/g, "").trim()
 
     }));
 
