@@ -218,9 +218,22 @@ etiquetas.forEach(e=>{
 
 let situacaoEtiqueta =
 "";
-        
+
+// Normaliza carga/loja do PEDIDO no mesmo formato usado
+// ao carregar as ETIQUETAS (excel.js -> carregarEtiquetas):
+// - carga: String + trim
+// - loja: apenas os dígitos (AREA_EXPEDIDA vem com letras/prefixos)
+// Sem isso, a chave abaixo quase nunca batia e o cruzamento
+// caía sempre no fallback por produto (perdendo Cancelada,
+// Montada, Transferido p/ Avaria etc.)
+const cargaNormalizada =
+String(p.carga || "").trim();
+
+const lojaNormalizada =
+String(p.loja || "").replace(/\D/g, "").trim();
+
 const chaveEtiquetaPedido =
-`${p.carga}|${p.loja}|${p.produto}`;
+`${cargaNormalizada}|${lojaNormalizada}|${p.produto}`;
 
    if(!master){
 
