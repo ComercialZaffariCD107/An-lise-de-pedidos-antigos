@@ -16,9 +16,14 @@ function mostrarLoading(){
         "loadingFill"
     );
 
-    fill.style.width = "0%";
+    fill.style.transitionDuration = "0s";
+    fill.style.transform = "scaleX(0)";
 
-    atualizarLoading(1);
+    document
+    .getElementById(
+        "loadingPercent"
+    )
+    .innerText = "0%";
 
 }
 
@@ -37,55 +42,47 @@ function esconderLoading(){
 
 }
 
-// Anima a barra contando de 1 em 1% até o valor alvo,
-// em vez de pular direto (ex: 25% -> 50%), pra parecer
-// mais dinâmica durante o processamento.
+// Move a barra até "valor"% usando uma transição CSS (o
+// próprio navegador anima o preenchimento, em vez de o JS
+// ficar "chutando" 1% de cada vez). Isso é essencial porque
+// o parse das planilhas (XLSX -> JSON) é síncrono e pesado:
+// enquanto ele roda, a thread principal fica ocupada e um
+// contador feito em JS trava. Já uma transição CSS em
+// "transform" continua sendo desenhada pelo navegador mesmo
+// com a thread principal ocupada.
+//
+// O "respiro" de dois requestAnimationFrame garante que o
+// navegador já pintou o início da animação ANTES de qualquer
+// travamento causado pelo processamento pesado que vier a
+// seguir — sem isso, a barra corre o risco de "pular" direto
+// pro valor final sem dar a sensação de movimento.
 
-function atualizarLoading(valorAlvo){
+async function atualizarLoading(valor, duracaoMs = 400){
 
-    return new Promise(resolve=>{
+    const fill =
+    document.getElementById(
+        "loadingFill"
+    );
 
-        const fill =
-        document.getElementById(
-            "loadingFill"
-        );
+    const texto =
+    document.getElementById(
+        "loadingPercent"
+    );
 
-        const texto =
-        document.getElementById(
-            "loadingPercent"
-        );
+    fill.style.transitionDuration = duracaoMs + "ms";
+    fill.style.transform = `scaleX(${valor/100})`;
 
-        let atual =
-        parseInt(fill.style.width) || 0;
+    texto.innerText = valor + "%";
 
-        if(atual >= valorAlvo){
+    await new Promise(resolve=>
 
-            fill.style.width = valorAlvo + "%";
-            texto.innerText = valorAlvo + "%";
+        requestAnimationFrame(()=>
 
-            resolve();
+            requestAnimationFrame(resolve)
 
-            return;
+        )
 
-        }
-
-        const passo = setInterval(()=>{
-
-            atual++;
-
-            fill.style.width = atual + "%";
-            texto.innerText = atual + "%";
-
-            if(atual >= valorAlvo){
-
-                clearInterval(passo);
-                resolve();
-
-            }
-
-        }, 12);
-
-    });
+    );
 
 }
 

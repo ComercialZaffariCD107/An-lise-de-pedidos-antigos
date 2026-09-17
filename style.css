@@ -1011,11 +1011,17 @@ tbody tr:hover{
 
     height:100%;
 
-    width:0%;
+    width:100%;
+
+    transform-origin:left;
+
+    transform:scaleX(0);
 
     background:var(--amber);
 
-    transition:width .08s linear;
+    transition:transform .4s linear;
+
+    will-change:transform;
 
 }
 

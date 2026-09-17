@@ -43,12 +43,22 @@ alert(
 
         }
 
+        await atualizarLoading(1, 150);
+
+        // Inicia a transição pra 25% ANTES do parse pesado do
+        // arquivo de Pedidos (a planilha maior). O await aqui
+        // só espera 2 frames (o "respiro" pro navegador pintar
+        // o início da animação) — a transição em si continua
+        // rodando em paralelo, mesmo com a thread principal
+        // ocupada pelo XLSX.read/sheet_to_json logo abaixo.
+        await atualizarLoading(25, 1500);
+
         const pedidos =
         await carregarPedidos(
             pedidosFile
         );
 
-        await atualizarLoading(25);
+        await atualizarLoading(50, 900);
         
         const masters =
         await carregarMasters(
@@ -59,7 +69,7 @@ const etiquetas =
 await carregarEtiquetas(
     etiquetaFile
 );
-        await atualizarLoading(50);
+        await atualizarLoading(75, 400);
         
         cruzarDados(
     pedidos,
@@ -67,7 +77,7 @@ await carregarEtiquetas(
     etiquetas
 );
 
-        await atualizarLoading(75);
+        await atualizarLoading(100, 250);
         
     // console.log(
 //     "RESULTADO",
@@ -75,7 +85,6 @@ await carregarEtiquetas(
 // );
 
         atualizarDashboard();
-        await atualizarLoading(100);
         esconderLoading();
 
         if(
