@@ -92,13 +92,15 @@ function obterDadosFiltrados(){
 
 function renderTabela(){
 
-    const dados =
-    obterDadosFiltrados();
-
     const tbody =
     document.getElementById(
         "tbody"
     );
+
+    if(!tbody) return;
+
+    const dados =
+    obterDadosFiltrados();
 
     let html = "";
 

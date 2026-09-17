@@ -213,55 +213,6 @@
 </section>
 
 <!-- ================================= -->
-<!-- SINCRONIZAÇÃO AUTOMÁTICA -->
-<!-- ================================= -->
-
-<section class="sync-card">
-
-    <div class="sync-card-info">
-
-        <div class="sync-card-icone">🔗</div>
-
-        <div class="sync-card-textos">
-
-            <div class="sync-card-titulo">Sincronização Automática</div>
-
-            <div id="syncStatus" class="sync-off">
-                <span class="sync-dot"></span> Sincronização desligada
-            </div>
-
-            <span id="syncUltimaChecagem" class="sync-ultima-checagem" style="display:none;"></span>
-
-        </div>
-
-    </div>
-
-    <div class="sync-card-acoes">
-
-        <button
-        id="btnConectarPasta"
-        class="btn-processar"
-        onclick="conectarPastaAnalise()">
-
-            🔗 Conectar Pasta
-
-        </button>
-
-        <button
-        id="btnDesconectarPasta"
-        class="btn-tema"
-        style="display:none;"
-        onclick="desconectarPastaAnalise()">
-
-            ⛔ Desconectar
-
-        </button>
-
-    </div>
-
-</section>
-
-<!-- ================================= -->
 <!-- LOADING -->
 <!-- ================================= -->
 
@@ -310,7 +261,7 @@
   <div
 class="kpi kpi-sem-master"
 onclick="filtrarSituacao('Sem Master')">
-        <div class="kpi-icon">🔴</div>
+        <div class="kpi-icon"><span class="kpi-dot"></span></div>
         <span>Sem Master</span>
         <h2 id="kpiSemMaster">0</h2>
     </div>
@@ -318,7 +269,7 @@ onclick="filtrarSituacao('Sem Master')">
     <div
 class="kpi kpi-com-master"
 onclick="filtrarSituacao('Com Master')">
-        <div class="kpi-icon">🟢</div>
+        <div class="kpi-icon"><span class="kpi-dot"></span></div>
         <span>Com Master</span>
         <h2 id="kpiComMaster">0</h2>
     </div>
@@ -326,7 +277,7 @@ onclick="filtrarSituacao('Com Master')">
    <div
 class="kpi kpi-antiga"
 onclick="filtrarSituacao('Master Antiga')">
-        <div class="kpi-icon">🟠</div>
+        <div class="kpi-icon"><span class="kpi-dot"></span></div>
         <span>Master Antiga</span>
         <h2 id="kpiMasterAntiga">0</h2>
     </div>
@@ -350,13 +301,13 @@ onclick="filtrarSituacao('Master Antiga')">
    <div
 class="kpi kpi-aguardando"
 onclick="filtrarEtiqueta('Aguardando')">
-        <div class="kpi-icon">🟡</div>
+        <div class="kpi-icon"><span class="kpi-dot"></span></div>
         <span>Aguardando</span>
         <h2 id="kpiAguardando">0</h2>
     </div>
 
     <div class="kpi kpi-montagem">
-        <div class="kpi-icon">🔵</div>
+        <div class="kpi-icon"><span class="kpi-dot"></span></div>
         <span>Em Montagem</span>
         <h2 id="kpiMontagem">0</h2>
     </div>
@@ -364,13 +315,13 @@ onclick="filtrarEtiqueta('Aguardando')">
   <div
 class="kpi kpi-montadas"
 onclick="filtrarEtiqueta('Montada')">
-        <div class="kpi-icon">🟢</div>
+        <div class="kpi-icon"><span class="kpi-dot"></span></div>
         <span>Montadas</span>
         <h2 id="kpiMontadas">0</h2>
     </div>
 
     <div class="kpi kpi-checada">
-        <div class="kpi-icon">⚫</div>
+        <div class="kpi-icon"><span class="kpi-dot"></span></div>
         <span>Não Checadas</span>
         <h2 id="kpiNaoChecada">0</h2>
     </div>
@@ -378,7 +329,7 @@ onclick="filtrarEtiqueta('Montada')">
     <div
 class="kpi kpi-cancelada"
 onclick="filtrarEtiqueta('Cancelada')">
-        <div class="kpi-icon">🔴</div>
+        <div class="kpi-icon"><span class="kpi-dot"></span></div>
         <span>Canceladas</span>
         <h2 id="kpiCanceladas">0</h2>
     </div>
@@ -502,39 +453,6 @@ Filtrar
 </section>
 
 
-<!-- ================================= -->
-<!-- RESULTADO -->
-<!-- ================================= -->
-
-<section class="resultado">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Loja</th>
-<th>Pedido</th>
-<th>Produto</th>
-<th>Descrição</th>
-<th>Qtd</th>
-<th>Master</th>
-<th>Dias</th>
-<th>Status</th>
-<th>Situação Etiqueta</th>
-  
-</tr>
-
-</thead>
-
-<tbody id="tbody">
-
-</tbody>
-
-</table>
-
-</section>
 
 <script src="excel.js"></script>
 <script src="processamento.js"></script>
@@ -542,7 +460,6 @@ Filtrar
 <script src="filtros.js"></script>
 <script src="exportacao.js"></script>
 <script src="app.js"></script>
-<script src="sync.js"></script>
 
 </body>
 
