@@ -19,14 +19,14 @@
     --navy-1:        #0E1B3D;
     --navy-2:        #16265A;
 
-    --bg:            #0E1B3D;
-    --surface:       #16265A;
-    --surface-2:     #1B2F6B;
-    --border:        #223569;
-    --border-light:  #2C4080;
+    --bg:            #EEF1F8;
+    --surface:       #FFFFFF;
+    --surface-2:     #F4F6FB;
+    --border:        #D7DEEA;
+    --border-light:  #C3CDDE;
 
-    --text:          #EEF1F8;
-    --muted:         #9BA9CE;
+    --text:          #16213F;
+    --muted:         #5B6672;
 
     --amber:         #E48B00;
     --green:         #3DCB82;
@@ -44,22 +44,22 @@
 }
 
 /* =========================================================
-   TEMA CLARO — workspace claro do console (#EEF1F8), mesmo
-   padrão usado no Comparativo de Estoque. Como todo o CSS
-   abaixo usa var(--...), sobrescrever as variáveis aqui já
-   propaga pro site inteiro.
+   TEMA ESCURO — variante navy do console (mesma marca,
+   contraste mais forte). Como todo o CSS abaixo usa
+   var(--...), sobrescrever as variáveis aqui já propaga
+   pro site inteiro.
 ========================================================= */
 
-body.tema-claro{
+body.tema-escuro{
 
-    --bg:            #EEF1F8;
-    --surface:       #FFFFFF;
-    --surface-2:     #F4F6FB;
-    --border:        #D7DEEA;
-    --border-light:  #C3CDDE;
+    --bg:            #0E1B3D;
+    --surface:       #16265A;
+    --surface-2:     #1B2F6B;
+    --border:        #223569;
+    --border-light:  #2C4080;
 
-    --text:          #16213F;
-    --muted:         #5B6672;
+    --text:          #EEF1F8;
+    --muted:         #9BA9CE;
 
 }
 

@@ -476,23 +476,23 @@ configurarUploadComLoading(
 function alternarTema(){
 
     document.body.classList.toggle(
-        "tema-claro"
+        "tema-escuro"
     );
 
-    const claro =
+    const escuro =
     document.body.classList.contains(
-        "tema-claro"
+        "tema-escuro"
     );
 
     document.getElementById(
         "btnTema"
-    ).innerHTML = claro
-    ? "🌙 Tema Escuro"
-    : "☀️ Tema Claro";
+    ).innerHTML = escuro
+    ? "☀️ Tema Claro"
+    : "🌙 Tema Escuro";
 
     localStorage.setItem(
         "tema",
-        claro ? "claro" : "escuro"
+        escuro ? "escuro" : "claro"
     );
 
 }
@@ -504,16 +504,16 @@ window.addEventListener("load",()=>{
     const tema =
     localStorage.getItem("tema");
 
-    if(tema==="claro"){
+    if(tema==="escuro"){
 
         document.body.classList.add(
-            "tema-claro"
+            "tema-escuro"
         );
 
         document.getElementById(
             "btnTema"
         ).innerHTML =
-        "🌙 Tema Escuro";
+        "☀️ Tema Claro";
 
     }
 
