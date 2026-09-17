@@ -2,7 +2,7 @@
 // ========================================================
 // SINCRONIZAÇÃO AUTOMÁTICA — File System Access API
 //
-// Conecta a subpasta "Master Cross Analyzer" (dentro da
+// Conecta a subpasta "Análise de Pedidos Antigos" (dentro da
 // pasta mestre) uma única vez. A partir daí, detecta sozinho
 // os 3 arquivos pelo NOME (não pela extensão, já que Pedidos
 // e Master usam a mesma extensão .xlsx/.xls/.csv):

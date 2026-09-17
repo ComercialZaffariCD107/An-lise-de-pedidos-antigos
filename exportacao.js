@@ -260,7 +260,7 @@ function criarAbaResumo(wb, resumo){
 
     const titulo = sheet.getCell("A1");
 
-    titulo.value = "📊 RESUMO EXECUTIVO — MASTER CROSS ANALYZER";
+    titulo.value = "📊 RESUMO EXECUTIVO — ANÁLISE DE PEDIDOS ANTIGOS";
 
     titulo.font = {
         bold:true,
@@ -369,7 +369,7 @@ async function exportarExcel(){
 
     const wb = new ExcelJS.Workbook();
 
-    wb.creator = "Master Cross Analyzer";
+    wb.creator = "Análise de Pedidos Antigos";
     wb.created = new Date();
 
     // =====================================

@@ -1,7 +1,7 @@
 /* =========================================================
-   MASTER CROSS ANALYZER — PAINEL INDUSTRIAL
-   Mesmo sistema de tokens do Gerador de Abastecimento PCP:
-   grafite + âmbar (ação) / verde (ok) / vermelho (crítico) /
+   ANÁLISE DE PEDIDOS ANTIGOS — PAINEL INDUSTRIAL
+   Sistema de tokens do console logístico CD-107 (navy + âmbar):
+   navy (marca) / âmbar (ação) / verde (ok) / vermelho (crítico) /
    azul (neutro), com duas cores categóricas extras
    (ciano e violeta) para KPIs que não são de alerta.
 ========================================================= */
@@ -16,16 +16,19 @@
 
 :root{
 
-    --bg:            #14181C;
-    --surface:       #1D2329;
-    --surface-2:     #232A31;
-    --border:        #2A323B;
-    --border-light:  #38424D;
+    --navy-1:        #0E1B3D;
+    --navy-2:        #16265A;
 
-    --text:          #E7ECF1;
-    --muted:         #8B97A3;
+    --bg:            #0E1B3D;
+    --surface:       #16265A;
+    --surface-2:     #1B2F6B;
+    --border:        #223569;
+    --border-light:  #2C4080;
 
-    --amber:         #F2A93B;
+    --text:          #EEF1F8;
+    --muted:         #9BA9CE;
+
+    --amber:         #E48B00;
     --green:         #3DCB82;
     --red:           #E8564F;
     --blue:          #4C8FD1;
@@ -41,21 +44,21 @@
 }
 
 /* =========================================================
-   TEMA CLARO — mesma estrutura, só redefine os tokens.
-   Como todo o CSS abaixo usa var(--...), não precisamos
-   repetir cada seletor: sobrescrever as variáveis aqui
-   já propaga pro site inteiro.
+   TEMA CLARO — workspace claro do console (#EEF1F8), mesmo
+   padrão usado no Comparativo de Estoque. Como todo o CSS
+   abaixo usa var(--...), sobrescrever as variáveis aqui já
+   propaga pro site inteiro.
 ========================================================= */
 
 body.tema-claro{
 
-    --bg:            #EEF1F4;
+    --bg:            #EEF1F8;
     --surface:       #FFFFFF;
-    --surface-2:     #F4F6F8;
-    --border:        #D7DCE2;
-    --border-light:  #C3CBD3;
+    --surface-2:     #F4F6FB;
+    --border:        #D7DEEA;
+    --border-light:  #C3CDDE;
 
-    --text:          #1B2126;
+    --text:          #16213F;
     --muted:         #5B6672;
 
 }
@@ -66,8 +69,10 @@ body{
 
     font-family:var(--font-body);
 
-    background:
-        radial-gradient(ellipse at top, color-mix(in srgb, var(--surface) 60%, var(--bg)) 0%, var(--bg) 55%);
+    background-color:var(--bg);
+    background-image:
+        radial-gradient(color-mix(in srgb, var(--text) 12%, transparent) 1px, transparent 1px);
+    background-size:22px 22px;
     background-attachment:fixed;
 
     color:var(--text);
@@ -94,9 +99,9 @@ body{
 
     margin-bottom:30px;
 
-    background:var(--surface);
+    background:linear-gradient(135deg, var(--navy-1) 0%, var(--navy-2) 100%);
 
-    border:1px solid var(--border);
+    border:1px solid var(--navy-1);
 
     border-radius:var(--radius-lg);
 
@@ -104,7 +109,7 @@ body{
 
     overflow:hidden;
 
-    box-shadow:0 10px 30px rgba(0,0,0,.35);
+    box-shadow:0 10px 30px rgba(14,27,61,.35);
 
 }
 
@@ -128,8 +133,8 @@ body{
         135deg,
         var(--amber) 0px,
         var(--amber) 10px,
-        var(--surface) 10px,
-        var(--surface) 20px
+        var(--navy-2) 10px,
+        var(--navy-2) 20px
     );
 
     opacity:.9;
@@ -166,7 +171,7 @@ body{
 
     gap:16px;
 
-    color:var(--text);
+    color:#EEF1F8;
 
 }
 
@@ -182,7 +187,7 @@ body{
 
     font-size:.95rem;
 
-    color:var(--muted);
+    color:#9BA9CE;
 
     letter-spacing:.04em;
 
@@ -204,9 +209,9 @@ body{
 
     border-radius:var(--radius);
 
-    background:var(--surface-2);
+    background:rgba(255,255,255,.08);
 
-    border:1px solid var(--border-light);
+    border:1px solid rgba(255,255,255,.18);
 
     font-size:26px;
 
