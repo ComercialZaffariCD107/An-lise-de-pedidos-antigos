@@ -48,7 +48,7 @@ alert(
             pedidosFile
         );
 
-        atualizarLoading(25);
+        await atualizarLoading(25);
         
         const masters =
         await carregarMasters(
@@ -59,7 +59,7 @@ const etiquetas =
 await carregarEtiquetas(
     etiquetaFile
 );
-        atualizarLoading(50);
+        await atualizarLoading(50);
         
         cruzarDados(
     pedidos,
@@ -67,7 +67,7 @@ await carregarEtiquetas(
     etiquetas
 );
 
-        atualizarLoading(75);
+        await atualizarLoading(75);
         
     // console.log(
 //     "RESULTADO",
@@ -75,7 +75,7 @@ await carregarEtiquetas(
 // );
 
         atualizarDashboard();
-        atualizarLoading(100);
+        await atualizarLoading(100);
         esconderLoading();
 
         if(

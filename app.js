@@ -11,7 +11,14 @@ function mostrarLoading(){
     .style.display =
     "block";
 
-    atualizarLoading(0);
+    const fill =
+    document.getElementById(
+        "loadingFill"
+    );
+
+    fill.style.width = "0%";
+
+    atualizarLoading(1);
 
 }
 
@@ -30,21 +37,55 @@ function esconderLoading(){
 
 }
 
-function atualizarLoading(valor){
+// Anima a barra contando de 1 em 1% até o valor alvo,
+// em vez de pular direto (ex: 25% -> 50%), pra parecer
+// mais dinâmica durante o processamento.
 
-    document
-    .getElementById(
-        "loadingFill"
-    )
-    .style.width =
-    valor + "%";
+function atualizarLoading(valorAlvo){
 
-    document
-    .getElementById(
-        "loadingPercent"
-    )
-    .innerText =
-    valor + "%";
+    return new Promise(resolve=>{
+
+        const fill =
+        document.getElementById(
+            "loadingFill"
+        );
+
+        const texto =
+        document.getElementById(
+            "loadingPercent"
+        );
+
+        let atual =
+        parseInt(fill.style.width) || 0;
+
+        if(atual >= valorAlvo){
+
+            fill.style.width = valorAlvo + "%";
+            texto.innerText = valorAlvo + "%";
+
+            resolve();
+
+            return;
+
+        }
+
+        const passo = setInterval(()=>{
+
+            atual++;
+
+            fill.style.width = atual + "%";
+            texto.innerText = atual + "%";
+
+            if(atual >= valorAlvo){
+
+                clearInterval(passo);
+                resolve();
+
+            }
+
+        }, 12);
+
+    });
 
 }
 

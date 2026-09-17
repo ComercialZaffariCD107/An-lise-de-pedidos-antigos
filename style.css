@@ -1029,7 +1029,7 @@ tbody tr:hover{
 
     background:var(--amber);
 
-    transition:.25s;
+    transition:width .08s linear;
 
 }
 
